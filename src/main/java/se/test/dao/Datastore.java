@@ -10,6 +10,6 @@ public interface Datastore {
 	public List<Entity> getEntityList(String kind, Integer limit);
 	public void deleteEntity(String kind, long id);
 	public void updateEntity(String kind, Map<String, Object> properties, long id);
-	public Entity setEntity(String kind, Map<String, Object> properties);	
+	public void setEntity(String kind, Map<String, Object> properties);	
 
 }

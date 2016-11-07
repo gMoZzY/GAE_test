@@ -46,7 +46,7 @@ public class DatastoreImpl implements Datastore {
 		datastore.put(entity);
 	}
 	
-	public Entity setEntity(String kind, Map<String, Object> properties) {
+	public void setEntity(String kind, Map<String, Object> properties) {
 		
 		Entity entity = new Entity(kind);
 		for(Map.Entry<String, Object> property : properties.entrySet())
@@ -54,8 +54,6 @@ public class DatastoreImpl implements Datastore {
 			entity.setProperty(property.getKey(), property.getValue());
 		}
 		datastore.put(entity);
-		
-		return entity;
 	}
 
    

@@ -1,6 +1,5 @@
 package se.test.resouce;
 
-import org.json.JSONArray;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
@@ -63,9 +62,7 @@ public class DatastoreResource extends ServerResource {
     	//Should probably have some kind of check for kind and properties.
 		datastore.setEntity(entity.getKind(), entity.getProperties());
 
-		JSONArray jsonArray = new JSONArray();
-		jsonArray.put("Success");    	
-        return new JsonRepresentation(jsonArray);    
+        return new JsonRepresentation("Success");    
     }
     
     @Put("json")
@@ -74,9 +71,7 @@ public class DatastoreResource extends ServerResource {
     	//Should probably have some kind of check for kind and properties.
 		datastore.updateEntity(entity.getKind(), entity.getProperties(), entity.getId());
 
-		JSONArray jsonArray = new JSONArray();
-		jsonArray.put("Success");    	
-        return new JsonRepresentation(jsonArray);    
+        return new JsonRepresentation("Success");    
     }
     
     @Delete("json")
@@ -85,8 +80,6 @@ public class DatastoreResource extends ServerResource {
     	//Should probably have some kind of check for kind and properties.
 		datastore.deleteEntity(entity.getKind(), entity.getId());
 
-		JSONArray jsonArray = new JSONArray();
-		jsonArray.put("Success");    	
-        return new JsonRepresentation(jsonArray);    
+        return new JsonRepresentation("Success");    
     }
 }
