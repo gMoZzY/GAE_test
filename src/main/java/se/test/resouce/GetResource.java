@@ -7,9 +7,12 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import se.test.dao.Datastore;
+import se.test.entity.pojo.TestEntity;
 import se.test.util.Util;
 
 import com.google.appengine.api.datastore.Entity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetResource extends ServerResource {
@@ -26,6 +29,12 @@ public class GetResource extends ServerResource {
     @Get("json")
     public Representation handleGet() 
     { 
+/*
+    	For parameterizied URI use:
+    	router.attach("/get/{param}", Resource.class);
+   		getRequestAttributes().get("param")
+*/
+    	
     	String kind = getRequest().getResourceRef().getQueryAsForm().getFirstValue("kind");
     	String pLimit = getRequest().getResourceRef().getQueryAsForm().getFirstValue("limit");
     	Integer limit = 1000;
@@ -34,7 +43,12 @@ public class GetResource extends ServerResource {
     	}catch (Exception e) {}
     	
     	List<Entity> list = datastore.getEntityList(kind, limit);
-        return new JacksonRepresentation<List<Entity>>(list);
+    	List<TestEntity> result = new ArrayList<TestEntity>();
+    	for(Entity tmp : list)
+		{
+    		result.add(new TestEntity(tmp));
+		}
+        return new JacksonRepresentation<List<TestEntity>>(result);
     }
 
 }

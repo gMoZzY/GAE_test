@@ -7,7 +7,9 @@ import org.restlet.routing.Router;
 import se.test.dao.Datastore;
 import se.test.dao.impl.DatastoreImpl;
 import se.test.resouce.DefaultResource;
+import se.test.resouce.DeleteResource;
 import se.test.resouce.GetResource;
+import se.test.resouce.PutResource;
 import se.test.resouce.SetResource;
 import se.test.util.Util;
 
@@ -27,6 +29,8 @@ public class DefaultApplication extends Application {
         router.attachDefault(DefaultResource.class);
         router.attach("/get", GetResource.class);
         router.attach("/set", SetResource.class);
+        router.attach("/del", DeleteResource.class);
+        router.attach("/put", PutResource.class);
 
 
         return router;
