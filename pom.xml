@@ -24,12 +24,19 @@
 	</repositories>
 
 	<dependencies>	
+		<!-- Google -->
 		<dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${appengine.sdk.version}</version>
 		</dependency>
+		<dependency>
+      		<groupId>com.google.cloud</groupId>
+      		<artifactId>google-cloud-bigquery</artifactId>
+      		<version>0.4.0</version>
+    	</dependency>
 		
+		<!-- Restlet -->
 		<dependency>
   			<groupId>org.restlet.gae</groupId>
   			<artifactId>org.restlet.ext.json</artifactId>

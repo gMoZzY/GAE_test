@@ -1,8 +1,13 @@
 package se.test.resouce;
 
+import org.json.JSONArray;
 import org.restlet.ext.jackson.JacksonRepresentation;
+import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
@@ -15,17 +20,18 @@ import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetResource extends ServerResource {
+public class DatastoreResource extends ServerResource {
 
 	private Datastore datastore;
     
-    public GetResource() {}
+    public DatastoreResource() {}
     
     protected void doInit() throws ResourceException 
     {
     	this.datastore = (Datastore) getContext().getAttributes().get(Util.DATASTORE_DAO_ID);
     }
         
+   
     @Get("json")
     public Representation handleGet() 
     { 
@@ -51,4 +57,36 @@ public class GetResource extends ServerResource {
         return new JacksonRepresentation<List<TestEntity>>(result);
     }
 
+    @Post("json")
+    public Representation handlePost(TestEntity entity)
+    {
+    	//Should probably have some kind of check for kind and properties.
+		datastore.setEntity(entity.getKind(), entity.getProperties());
+
+		JSONArray jsonArray = new JSONArray();
+		jsonArray.put("Success");    	
+        return new JsonRepresentation(jsonArray);    
+    }
+    
+    @Put("json")
+    public Representation handlePut(TestEntity entity)
+    {
+    	//Should probably have some kind of check for kind and properties.
+		datastore.updateEntity(entity.getKind(), entity.getProperties(), entity.getId());
+
+		JSONArray jsonArray = new JSONArray();
+		jsonArray.put("Success");    	
+        return new JsonRepresentation(jsonArray);    
+    }
+    
+    @Delete("json")
+    public Representation handleDelete(TestEntity entity)
+    {
+    	//Should probably have some kind of check for kind and properties.
+		datastore.deleteEntity(entity.getKind(), entity.getId());
+
+		JSONArray jsonArray = new JSONArray();
+		jsonArray.put("Success");    	
+        return new JsonRepresentation(jsonArray);    
+    }
 }
