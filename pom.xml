@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
      
     <groupId>se.test</groupId>
-    <artifactId>MoZzY_test</artifactId>
+    <artifactId>GAE_test</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
     
