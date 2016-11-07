@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+         <display-name>MoZzY Test</display-name>
+
+         <servlet>
+			<servlet-name>MoZzY_Test</servlet-name>
+            <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+            <init-param>
+            	<param-name>org.restlet.application</param-name>
+                <param-value>se.test.application.DefaultApplication  </param-value>
+           	</init-param>
+         </servlet>
+
+    <!-- Catch all requests -->
+    <servlet-mapping>
+        <servlet-name>MoZzY_Test</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+   
+</web-app>
