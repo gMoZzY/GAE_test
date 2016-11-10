@@ -41,7 +41,7 @@ public class DefaultApplication extends Application {
         
         //Memcache
         router.attach("/memcache", MemcacheResource.class);
-
+        
         return router;
     }
 }
