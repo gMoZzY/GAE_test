@@ -1,0 +1,12 @@
+<queue-entries>
+  <queue>
+    <name>stat</name>
+    <rate>5/s</rate>
+    <retry-parameters>
+      <task-retry-limit>5</task-retry-limit>
+      <task-age-limit>2d</task-age-limit>
+      <min-backoff-seconds>10</min-backoff-seconds>
+      <max-backoff-seconds>200</max-backoff-seconds>
+    </retry-parameters>
+  </queue>
+</queue-entries>
