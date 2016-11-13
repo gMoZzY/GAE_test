@@ -15,7 +15,7 @@ import org.restlet.resource.ServerResource;
 import com.google.api.services.pubsub.model.Topic;
 
 import se.test.dao.Pubsub;
-import se.test.entity.pojo.TopicEntity;
+import se.test.pojo.TopicPojo;
 import se.test.util.Util;
 
 public class PubsubResource extends ServerResource {
@@ -34,13 +34,13 @@ public class PubsubResource extends ServerResource {
     public Representation handleGet() 
     { 
     	String projectId = getRequest().getResourceRef().getQueryAsForm().getFirstValue("projectId");
-    	return new JacksonRepresentation<List<TopicEntity>>(this.pubsub.getTopics(projectId));
+    	return new JacksonRepresentation<List<TopicPojo>>(this.pubsub.getTopics(projectId));
     }
 
     @Post("json")
-    public Representation handlePost(TopicEntity topic)
+    public Representation handlePost(TopicPojo topic)
     {
-    	return new JacksonRepresentation<TopicEntity>(this.pubsub.createTopic(topic));
+    	return new JacksonRepresentation<TopicPojo>(this.pubsub.createTopic(topic));
     }
     
     @Put("json")

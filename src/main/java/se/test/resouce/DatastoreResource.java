@@ -11,7 +11,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import se.test.dao.Datastore;
-import se.test.entity.pojo.TestEntity;
+import se.test.pojo.TestPojo;
 import se.test.util.Util;
 
 import com.google.appengine.api.datastore.Entity;
@@ -48,16 +48,16 @@ public class DatastoreResource extends ServerResource {
     	}catch (Exception e) {}
     	
     	List<Entity> list = datastore.getEntityList(kind, limit);
-    	List<TestEntity> result = new ArrayList<TestEntity>();
+    	List<TestPojo> result = new ArrayList<TestPojo>();
     	for(Entity tmp : list)
 		{
-    		result.add(new TestEntity(tmp));
+    		result.add(new TestPojo(tmp));
 		}
-        return new JacksonRepresentation<List<TestEntity>>(result);
+        return new JacksonRepresentation<List<TestPojo>>(result);
     }
 
     @Post("json")
-    public Representation handlePost(TestEntity entity)
+    public Representation handlePost(TestPojo entity)
     {
     	//Should probably have some kind of check for kind and properties.
 		datastore.setEntity(entity.getKind(), entity.getProperties());
@@ -66,7 +66,7 @@ public class DatastoreResource extends ServerResource {
     }
     
     @Put("json")
-    public Representation handlePut(TestEntity entity)
+    public Representation handlePut(TestPojo entity)
     {
     	//Should probably have some kind of check for kind and properties.
 		datastore.updateEntity(entity.getKind(), entity.getProperties(), entity.getId());
@@ -75,7 +75,7 @@ public class DatastoreResource extends ServerResource {
     }
     
     @Delete("json")
-    public Representation handleDelete(TestEntity entity)
+    public Representation handleDelete(TestPojo entity)
     {
     	//Should probably have some kind of check for kind and properties.
 		datastore.deleteEntity(entity.getKind(), entity.getId());

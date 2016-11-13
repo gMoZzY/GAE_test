@@ -9,7 +9,7 @@ import com.google.api.services.pubsub.Pubsub;
 import com.google.api.services.pubsub.model.ListTopicsResponse;
 import com.google.api.services.pubsub.model.Topic;
 
-import se.test.entity.pojo.TopicEntity;
+import se.test.pojo.TopicPojo;
 
 
 
@@ -30,17 +30,17 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 	
 	@Override
-	public TopicEntity createTopic(TopicEntity topic) 
+	public TopicPojo createTopic(TopicPojo topic) 
 	{
 		
 		String fullName = topic.getName();
 		try
 		{
-            return new TopicEntity(this.pubsub.projects().topics().get(fullName).execute());
+            return new TopicPojo(this.pubsub.projects().topics().get(fullName).execute());
         } catch(IOException e) {
                 try 
                 {
-                	return new TopicEntity(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
+                	return new TopicPojo(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}	
@@ -55,9 +55,9 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 
 	@Override
-	public List<TopicEntity> getTopics(String projectId) 
+	public List<TopicPojo> getTopics(String projectId) 
 	{
-		List<TopicEntity> topicList = new ArrayList<TopicEntity>();
+		List<TopicPojo> topicList = new ArrayList<TopicPojo>();
 		try
 		{
 			String nextPageToken = null;
@@ -72,7 +72,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	            {
 	                for (Topic tmp : response.getTopics()) 
 	                {
-	                    topicList.add(new TopicEntity(tmp));
+	                    topicList.add(new TopicPojo(tmp));
 	                }
 	            }
 	            nextPageToken = response.getNextPageToken();

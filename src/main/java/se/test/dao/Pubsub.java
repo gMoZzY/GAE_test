@@ -2,13 +2,13 @@ package se.test.dao;
 
 import java.util.List;
 
-import se.test.entity.pojo.TopicEntity;
+import se.test.pojo.TopicPojo;
 
 
 public interface Pubsub {
 
-	public TopicEntity createTopic(TopicEntity topic);
-	public List<TopicEntity> getTopics(String projectId);
+	public TopicPojo createTopic(TopicPojo topic);
+	public List<TopicPojo> getTopics(String projectId);
 	
 	
 }

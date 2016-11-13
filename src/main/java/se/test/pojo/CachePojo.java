@@ -1,12 +1,12 @@
-package se.test.entity.pojo;
+package se.test.pojo;
 
-public class CacheEntity {
+public class CachePojo {
 	
 	private Object key;
 	private Object value;
 	private Object expire;
 	
-	public CacheEntity() 
+	public CachePojo() 
 	{
 	
 	}

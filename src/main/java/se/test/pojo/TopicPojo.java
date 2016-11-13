@@ -1,16 +1,16 @@
-package se.test.entity.pojo;
+package se.test.pojo;
 
 import com.google.api.services.pubsub.model.Topic;
 
-public class TopicEntity {
+public class TopicPojo {
 
 	private String name;
 	private String projectId;
 	private String topicId;
 	
-	public TopicEntity() {}
+	public TopicPojo() {}
 	
-	public TopicEntity(Topic topic) 
+	public TopicPojo(Topic topic) 
 	{
 		setName(topic.getName());
 	}

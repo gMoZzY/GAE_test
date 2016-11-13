@@ -1,20 +1,20 @@
-package se.test.entity.pojo;
+package se.test.pojo;
 
 import java.util.Map;
 
 import com.google.appengine.api.datastore.Entity;
 
-public class TestEntity {
+public class TestPojo {
 
 	private long id; 
 	private String kind;
 	private Map<String, Object> properties;
 	
 	
-	public TestEntity()
+	public TestPojo()
 	{}
 
-	public TestEntity(Entity entity)
+	public TestPojo(Entity entity)
 	{
 		setId(entity.getKey().getId());
 		setKind(entity.getKind());

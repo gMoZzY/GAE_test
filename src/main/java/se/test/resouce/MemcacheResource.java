@@ -13,7 +13,7 @@ import org.restlet.resource.ServerResource;
 import com.google.appengine.api.memcache.Stats;
 
 import se.test.dao.Memcache;
-import se.test.entity.pojo.CacheEntity;
+import se.test.pojo.CachePojo;
 import se.test.util.Util;
 
 public class MemcacheResource extends ServerResource {
@@ -41,14 +41,14 @@ public class MemcacheResource extends ServerResource {
     }
     
     @Post("json")
-    public Representation handlePost(CacheEntity cache)
+    public Representation handlePost(CachePojo cache)
     {
     	this.memcache.setMemcache(cache.getKey(), cache.getValue(), cache.getExpire());
     	return new JsonRepresentation("Success!");
     }
     
     @Delete("json")
-    public Representation handleDelete(CacheEntity cache)
+    public Representation handleDelete(CachePojo cache)
     {
     	this.memcache.deleteMemcache(cache.getKey());
     	return new JsonRepresentation("Success!");
