@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Entity;
 
-public class TestPojo {
+public class EntityPojo {
 
 	private long id; 
 	private String kind;
 	private Map<String, Object> properties;
 	
 	
-	public TestPojo()
+	public EntityPojo()
 	{}
 
-	public TestPojo(Entity entity)
+	public EntityPojo(Entity entity)
 	{
 		setId(entity.getKey().getId());
 		setKind(entity.getKind());

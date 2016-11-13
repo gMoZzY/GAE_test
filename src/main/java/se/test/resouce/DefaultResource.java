@@ -6,10 +6,22 @@ import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
+import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
+import se.test.dao.Memcache;
+import se.test.dao.Pubsub;
+import se.test.util.Util;
 
 public class DefaultResource extends ServerResource {
     
+	public DefaultResource() {}
+	
+	protected void doInit() throws ResourceException 
+    {
+		//(INTERFACE) getContext().getAttributes().get("MAP_KEY");
+    }
+	
     @Get
     public Representation handleGet() 
     {
