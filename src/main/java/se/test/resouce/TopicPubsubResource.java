@@ -3,12 +3,10 @@ package se.test.resouce;
 import java.util.List;
 
 import org.restlet.ext.jackson.JacksonRepresentation;
-import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
@@ -27,7 +25,6 @@ public class TopicPubsubResource extends ServerResource {
     	this.pubsub = (Pubsub) getContext().getAttributes().get(Util.PUBSUB_DAO_ID);
     }
         
-   
     @Get("json")
     public Representation handleGet() 
     { 
@@ -36,22 +33,14 @@ public class TopicPubsubResource extends ServerResource {
     }
 
     @Post("json")
-    public Representation handlePost(PubsubPojo topic)
+    public Representation handlePost(PubsubPojo pubsub)
     {
-    	return new JacksonRepresentation<PubsubPojo>(this.pubsub.setTopic(topic));
+    	return new JacksonRepresentation<PubsubPojo>(this.pubsub.setTopic(pubsub));
     }
     
-    @Put("json")
-    public Representation handlePut()
+    @Delete
+    public void handleDelete(PubsubPojo pubsub)
     {
-
-        return new JsonRepresentation("Success");    
-    }
-    
-    @Delete("json")
-    public Representation handleDelete()
-    {
-
-        return new JsonRepresentation("Success");    
+    	this.pubsub.deleteTopic(pubsub);
     }
 }

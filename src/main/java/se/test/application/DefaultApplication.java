@@ -15,6 +15,7 @@ import se.test.dao.impl.PubsubImpl;
 import se.test.resouce.DatastoreResource;
 import se.test.resouce.DefaultResource;
 import se.test.resouce.MemcacheResource;
+import se.test.resouce.MessagePubsubResource;
 import se.test.resouce.SubscriptionPubsubResource;
 import se.test.resouce.TopicPubsubResource;
 import se.test.util.Util;
@@ -32,7 +33,7 @@ public class DefaultApplication extends Application
     {
     	//Should be injected.
     	datastore = new DatastoreImpl();
-        bigQuery = new BigQueryImpl();
+        //bigQuery = new BigQueryImpl();
         memcache = new MemcacheImpl();
         pubsub = new PubsubImpl();
        
@@ -53,6 +54,7 @@ public class DefaultApplication extends Application
         //Pubsub
         router.attach("/pubsub/topic", TopicPubsubResource.class);
         router.attach("/pubsub/subscription", SubscriptionPubsubResource.class);
+        router.attach("/pubsub/msg", MessagePubsubResource.class);
         
         return router;
     }

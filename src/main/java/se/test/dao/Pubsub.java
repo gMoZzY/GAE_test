@@ -7,11 +7,18 @@ import se.test.pojo.PubsubPojo;
 
 public interface Pubsub {
 
-	public PubsubPojo setTopic(PubsubPojo pubsubPojo);
+	/*Topic*/
+	public PubsubPojo setTopic(PubsubPojo pubsub);
 	public List<PubsubPojo> getTopics(String projectId);
+	public void deleteTopic(PubsubPojo pubsub);
 	
-	public PubsubPojo setSubscription(PubsubPojo pubsubPojo);
+	/*Subscription*/
+	public PubsubPojo setSubscription(PubsubPojo pubsub);
 	public PubsubPojo getSubscription(String projectId);
+	public void deleteSubscription(PubsubPojo pubsub);
+	
+	/*Message*/
+	public void sendMessage(PubsubPojo pubsub);
 	
 	
 }

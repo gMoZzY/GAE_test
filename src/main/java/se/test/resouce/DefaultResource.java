@@ -9,9 +9,6 @@ import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import se.test.dao.Memcache;
-import se.test.dao.Pubsub;
-import se.test.util.Util;
 
 public class DefaultResource extends ServerResource {
     
@@ -33,21 +30,18 @@ public class DefaultResource extends ServerResource {
     @Post("json")
     public Representation handlePost()
     {
-    	
     	return new JacksonRepresentation<String>("Hello POST world!");
     }
     
     @Put("json")
     public Representation handlePut()
     {
-    	
     	return new JacksonRepresentation<String>("Hello PUT world!");
     }
 
     @Delete("json")
     public Representation handleDelete()
-    {
-    	
+    {    	
     	return new JacksonRepresentation<String>("Hello DELETE world!");
     }
 }

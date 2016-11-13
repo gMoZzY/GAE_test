@@ -10,6 +10,8 @@ public class PubsubPojo {
 	private String subscriptionName;
 	private String projectId;
 	private String topicId;
+	private String message;
+	private String pushEndpoint;
 	
 	public PubsubPojo() {}
 	
@@ -64,22 +66,45 @@ public class PubsubPojo {
 		this.subscriptionName = String.format("projects/%s/subscriptions/%s", this.getProjectId(), this.getTopicId());
 	}
 
-	public String getProjectId() {
+	public String getProjectId() 
+	{
 		return this.projectId;
 	}
 
-	public void setProjectId(String projectId) {
+	public void setProjectId(String projectId) 
+	{
 		this.projectId = projectId;
 		setName();
 		
 	}
 
-	public String getTopicId() {
+	public String getTopicId() 
+	{
 		return this.topicId;
 	}
 
-	public void setTopicId(String topicId) {
+	public void setTopicId(String topicId) 
+	{
 		this.topicId = topicId;
 		setName();
 	}
+
+	public String getMessage() 
+	{
+		return message;
+	}
+
+	public void setMessage(String message) 
+	{
+		this.message = message;
+	}
+
+	public String getPushEndpoint() {
+		return pushEndpoint;
+	}
+
+	public void setPushEndpoint(String pushEndpoint) {
+		this.pushEndpoint = pushEndpoint;
+	}
+	
 }

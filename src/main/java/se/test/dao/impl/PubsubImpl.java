@@ -16,26 +16,24 @@ import com.google.api.services.pubsub.model.Topic;
 import com.google.common.collect.ImmutableList;
 
 import se.test.pojo.PubsubPojo;
+import se.test.util.Util;
 
 
 
 public class PubsubImpl implements se.test.dao.Pubsub {
 
 	Pubsub pubsub;
-	
+
 	public PubsubImpl()
 	{
-		
-		this.pubsub = new Pubsub.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null)
-				.setRootUrl("http://localhost:6666").build();			
-		//pubsub = PubSubOptions.newBuilder().setHost("localhost:6666").build().getService();
+		this.pubsub = new Pubsub.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null).setRootUrl(Util.PUBSUB_ROOT_URL).build();			
 	}
 	
 	@Override
-	public PubsubPojo setTopic(PubsubPojo pubsubPojo) 
+	public PubsubPojo setTopic(PubsubPojo pubsub) 
 	{
 		
-		String fullName = pubsubPojo.getTopicName();
+		String fullName = pubsub.getTopicName();
 		try
 		{
             return new PubsubPojo(this.pubsub.projects().topics().get(fullName).execute());
@@ -47,11 +45,6 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 					e1.printStackTrace();
 				}	
         }
-		
-		/*
-		 * TopicInfo topicInfo = TopicInfo.of(name);
-		 * return this.pubsub.create(topicInfo);
-		 */
 		return null;
 	}
 
@@ -79,59 +72,69 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	            nextPageToken = response.getNextPageToken();
 	        } while (nextPageToken != null);
 	        return topicList;
-		}catch(IOException e){
-
-		}
-/*
-		Page<Topic> topics = this.pubsub.listTopics(ListOption.pageSize(100));
-		Iterator<Topic> topicIterator = topics.iterateAll();
-	    List<Topic> topicList = new ArrayList<Topic>();
-		while (topicIterator.hasNext()) {
-	      topicList.add(topicIterator.next());
-	    }
-*/
+		}catch(IOException e){}
+		
 		return topicList;
 	}
 	
 	@Override
-	public PubsubPojo getSubscription(String projectId) 
+	public void deleteTopic(PubsubPojo pubsub) 
 	{
-	        String message = "TEST";
-	        if (!"".equals(message)) {
-	        	try
-	        	{
-		            String fullTopicName = String.format("projects/%s/topics/%s",
-		                    "GAE_test",
-		                    "HEJ");
-		            PubsubMessage pubsubMessage = new PubsubMessage();
-		            pubsubMessage.encodeData(message.getBytes("UTF-8"));
-		            PublishRequest publishRequest = new PublishRequest();
-		            publishRequest.setMessages(ImmutableList.of(pubsubMessage));
-	
-		            this.pubsub.projects().topics().publish(fullTopicName, publishRequest).execute();
-	        	} catch(IOException e){}
-	        }
-
-		return null;
+		try {
+			this.pubsub.projects().topics().delete(pubsub.getTopicName());
+		} catch (IOException e) {}
 	}
 	
+	
+	
 	@Override
-	public PubsubPojo setSubscription(PubsubPojo pubsubPojo) {
+	public PubsubPojo getSubscription(String projectId) 
+	{
+		return null;
+	}
+
+	@Override
+	public PubsubPojo setSubscription(PubsubPojo pubsub) {
 		
-		String fullName = pubsubPojo.getSubscriptionName();
+		String fullName = pubsub.getSubscriptionName();
 
         try {
             this.pubsub.projects().subscriptions().get(fullName).execute();
         } catch (IOException e) {
                 try
                 {
-	        		String fullTopicName = pubsubPojo.getTopicName();
-	                PushConfig pushConfig = new PushConfig().setPushEndpoint("http://localhost:8080");
+	        		String fullTopicName = pubsub.getTopicName();
+	                PushConfig pushConfig = new PushConfig().setPushEndpoint(pubsub.getPushEndpoint());
 	                Subscription subscription = new Subscription().setTopic(fullTopicName).setPushConfig(pushConfig);
 	                return new PubsubPojo(this.pubsub.projects().subscriptions().create(fullName, subscription).execute());
                 } catch(IOException e1) {}
         }
 		return null;
+	}
+	
+	@Override
+	public void deleteSubscription(PubsubPojo pubsub) 
+	{
+		try {
+			this.pubsub.projects().subscriptions().delete(pubsub.getSubscriptionName());
+		} catch (IOException e) {}
+	}
+	
+	@Override
+	public void sendMessage(PubsubPojo pubsub) {
+        if (pubsub.getMessage() != null && !pubsub.getMessage().isEmpty()) 
+        {
+        	try
+        	{
+	            String fullTopicName = pubsub.getTopicName();
+	            PubsubMessage pubsubMessage = new PubsubMessage();
+	            pubsubMessage.encodeData(pubsub.getMessage().getBytes("UTF-8"));
+	            PublishRequest publishRequest = new PublishRequest();
+	            publishRequest.setMessages(ImmutableList.of(pubsubMessage));
+
+	            this.pubsub.projects().topics().publish(fullTopicName, publishRequest).execute();
+        	} catch(IOException e){}
+        }
 	}
 	
 }
