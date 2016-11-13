@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.services.pubsub.Pubsub;
+import com.google.api.services.pubsub.model.ListSubscriptionsResponse;
 import com.google.api.services.pubsub.model.ListTopicsResponse;
 import com.google.api.services.pubsub.model.PublishRequest;
 import com.google.api.services.pubsub.model.PubsubMessage;
@@ -81,18 +82,10 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	public void deleteTopic(PubsubPojo pubsub) 
 	{
 		try {
-			this.pubsub.projects().topics().delete(pubsub.getTopicName());
-		} catch (IOException e) {}
+			this.pubsub.projects().topics().delete(pubsub.getTopicName()).execute();
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
-	
-	
-	@Override
-	public PubsubPojo getSubscription(String projectId) 
-	{
-		return null;
-	}
-
 	@Override
 	public PubsubPojo setSubscription(PubsubPojo pubsub) {
 		
@@ -113,11 +106,40 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 	
 	@Override
+	public List<PubsubPojo> getSubscription(String projectId) 
+	{
+		List<PubsubPojo> subscriptionList = new ArrayList<PubsubPojo>();
+		try
+		{
+			String nextPageToken = null;
+	        Pubsub.Projects.Subscriptions.List listMethod = this.pubsub.projects().subscriptions().list("projects/" + projectId);
+	        do {
+	            if (nextPageToken != null) 
+	            {
+	                listMethod.setPageToken(nextPageToken);
+	            }
+	            ListSubscriptionsResponse response = listMethod.execute();
+	            if (!response.isEmpty()) 
+	            {
+	                for (Subscription tmp : response.getSubscriptions()) 
+	                {
+	                    subscriptionList.add(new PubsubPojo(tmp));
+	                }
+	            }
+	            nextPageToken = response.getNextPageToken();
+	        } while (nextPageToken != null);
+	        return subscriptionList;
+		}catch(IOException e){}
+		
+		return subscriptionList;
+	}
+
+	@Override
 	public void deleteSubscription(PubsubPojo pubsub) 
 	{
 		try {
-			this.pubsub.projects().subscriptions().delete(pubsub.getSubscriptionName());
-		} catch (IOException e) {}
+			this.pubsub.projects().subscriptions().delete(pubsub.getSubscriptionName()).execute();
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	@Override

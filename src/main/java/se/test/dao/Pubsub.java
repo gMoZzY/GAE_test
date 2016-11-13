@@ -14,7 +14,7 @@ public interface Pubsub {
 	
 	/*Subscription*/
 	public PubsubPojo setSubscription(PubsubPojo pubsub);
-	public PubsubPojo getSubscription(String projectId);
+	public List<PubsubPojo> getSubscription(String projectId);
 	public void deleteSubscription(PubsubPojo pubsub);
 	
 	/*Message*/

@@ -40,7 +40,7 @@ public class DefaultApplication extends Application
     	Router router = new Router(getContext());
 
         router.getContext().getAttributes().put(Util.DATASTORE_DAO_ID, datastore);
-        router.getContext().getAttributes().put(Util.BIG_QUERY_DAO_ID, bigQuery);
+//        router.getContext().getAttributes().put(Util.BIG_QUERY_DAO_ID, bigQuery);
         router.getContext().getAttributes().put(Util.MEMCACHE_DAO_ID, memcache);
         router.getContext().getAttributes().put(Util.PUBSUB_DAO_ID, pubsub);
         
