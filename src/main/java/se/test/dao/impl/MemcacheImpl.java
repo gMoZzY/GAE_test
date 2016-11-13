@@ -3,14 +3,11 @@ package se.test.dao.impl;
 import java.util.Date;
 import java.util.logging.Level;
 
-import com.google.appengine.api.memcache.AsyncMemcacheService;
 import com.google.appengine.api.memcache.ErrorHandlers;
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.Stats;
-import com.google.appengine.api.search.query.ExpressionParser.negation_return;
-
 import se.test.dao.Memcache;
 
 public class MemcacheImpl implements Memcache {
