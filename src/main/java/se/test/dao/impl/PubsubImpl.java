@@ -30,6 +30,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 		this.pubsub = new Pubsub.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null).setRootUrl(Util.PUBSUB_ROOT_URL).build();			
 	}
 	
+	/*Topic*/
 	@Override
 	public PubsubPojo setTopic(PubsubPojo pubsub) 
 	{
@@ -86,6 +87,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
+	/*Subscription*/
 	@Override
 	public PubsubPojo setSubscription(PubsubPojo pubsub) {
 		
@@ -142,6 +144,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
+	/*Message*/
 	@Override
 	public void sendMessage(PubsubPojo pubsub) {
         if (pubsub.getMessage() != null && !pubsub.getMessage().isEmpty()) 
