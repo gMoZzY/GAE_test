@@ -8,7 +8,9 @@ import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 
-public class DefaultResource extends ServerResource {
+import se.test.pojo.PubsubPojo;
+
+public class SubscruptionPubsubResource extends ServerResource {
     
     @Get
     public Representation handleGet() 
@@ -19,10 +21,10 @@ public class DefaultResource extends ServerResource {
     }
  	
     @Post("json")
-    public Representation handlePost()
+    public Representation handlePost(PubsubPojo pubsub)
     {
     	
-    	return new JacksonRepresentation<String>("Hello POST world!");
+    	return new JacksonRepresentation<PubsubPojo>(pubsub);
     }
     
     @Put("json")

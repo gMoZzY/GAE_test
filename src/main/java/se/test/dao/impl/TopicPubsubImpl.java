@@ -9,17 +9,17 @@ import com.google.api.services.pubsub.Pubsub;
 import com.google.api.services.pubsub.model.ListTopicsResponse;
 import com.google.api.services.pubsub.model.Topic;
 
-import se.test.pojo.TopicPojo;
+import se.test.pojo.PubsubPojo;
 
 
 
-public class PubsubImpl implements se.test.dao.Pubsub {
+public class TopicPubsubImpl implements se.test.dao.TopicPubsub {
 
 	Pubsub pubsub;
 	
 	private final String PROJECT_ID = "GAE_test"; 
 	
-	public PubsubImpl()
+	public TopicPubsubImpl()
 	{
 		
 		this.pubsub = new Pubsub.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null)
@@ -30,17 +30,17 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 	
 	@Override
-	public TopicPojo createTopic(TopicPojo topic) 
+	public PubsubPojo createTopic(PubsubPojo topic) 
 	{
 		
 		String fullName = topic.getName();
 		try
 		{
-            return new TopicPojo(this.pubsub.projects().topics().get(fullName).execute());
+            return new PubsubPojo(this.pubsub.projects().topics().get(fullName).execute());
         } catch(IOException e) {
                 try 
                 {
-                	return new TopicPojo(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
+                	return new PubsubPojo(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}	
@@ -55,9 +55,9 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 
 	@Override
-	public List<TopicPojo> getTopics(String projectId) 
+	public List<PubsubPojo> getTopics(String projectId) 
 	{
-		List<TopicPojo> topicList = new ArrayList<TopicPojo>();
+		List<PubsubPojo> topicList = new ArrayList<PubsubPojo>();
 		try
 		{
 			String nextPageToken = null;
@@ -72,7 +72,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	            {
 	                for (Topic tmp : response.getTopics()) 
 	                {
-	                    topicList.add(new TopicPojo(tmp));
+	                    topicList.add(new PubsubPojo(tmp));
 	                }
 	            }
 	            nextPageToken = response.getNextPageToken();

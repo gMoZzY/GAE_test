@@ -2,15 +2,15 @@ package se.test.pojo;
 
 import com.google.api.services.pubsub.model.Topic;
 
-public class TopicPojo {
+public class PubsubPojo {
 
 	private String name;
 	private String projectId;
 	private String topicId;
 	
-	public TopicPojo() {}
+	public PubsubPojo() {}
 	
-	public TopicPojo(Topic topic) 
+	public PubsubPojo(Topic topic) 
 	{
 		setName(topic.getName());
 	}
