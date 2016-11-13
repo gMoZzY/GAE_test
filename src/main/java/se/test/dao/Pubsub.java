@@ -2,7 +2,6 @@ package se.test.dao;
 
 import java.util.List;
 
-import se.test.pojo.PubsubPojo;
 import se.test.pojo.SubscriptionPubsubPojo;
 import se.test.pojo.TopicPubsubPojo;
 

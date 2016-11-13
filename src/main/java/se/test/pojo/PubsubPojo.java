@@ -4,7 +4,7 @@ public class PubsubPojo {
 	
 	private String name;
 	private String projectId;
-	private String topicId;
+	private String id;
 	private String type;
 	
 	public PubsubPojo() {}
@@ -17,14 +17,14 @@ public class PubsubPojo {
 			if(tmp.length == 4)
 			{
 				this.setProjectId(tmp[1]);
-				this.setTopicId(tmp[3]);
+				this.setId(tmp[3]);
 			}
 		}
 	}
 	
 	private void setName() 
 	{
-		this.name = String.format("projects/%s/%s/%s", this.getProjectId(), this.getType(), this.getTopicId());
+		this.name = String.format("projects/%s/%s/%s", this.getProjectId(), this.getType(), this.getId());
 	}
 
 	public String getName()
@@ -43,14 +43,14 @@ public class PubsubPojo {
 		setName();
 	}
 
-	public String getTopicId() 
+	public String getId() 
 	{
-		return this.topicId;
+		return this.id;
 	}
 
-	public void setTopicId(String topicId) 
+	public void setId(String id) 
 	{
-		this.topicId = topicId;
+		this.id = id;
 		setName();
 	}
 	

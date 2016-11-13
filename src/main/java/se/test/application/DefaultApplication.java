@@ -55,6 +55,7 @@ public class DefaultApplication extends Application
         router.attach("/pubsub/topic", TopicPubsubResource.class);
         router.attach("/pubsub/subscription", SubscriptionPubsubResource.class);
         router.attach("/pubsub/msg", MessagePubsubResource.class);
+        router.attach("/pubsub/test", MessagePubsubResource.class);
         
         return router;
     }
