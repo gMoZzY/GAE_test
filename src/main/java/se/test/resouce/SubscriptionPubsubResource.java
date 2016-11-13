@@ -10,7 +10,7 @@ import org.restlet.resource.ServerResource;
 
 import se.test.pojo.PubsubPojo;
 
-public class SubscruptionPubsubResource extends ServerResource {
+public class SubscriptionPubsubResource extends ServerResource {
     
     @Get
     public Representation handleGet() 

@@ -7,14 +7,15 @@ import org.restlet.routing.Router;
 import se.test.dao.BigQuery;
 import se.test.dao.Datastore;
 import se.test.dao.Memcache;
-import se.test.dao.TopicPubsub;
+import se.test.dao.Pubsub;
 import se.test.dao.impl.BigQueryImpl;
 import se.test.dao.impl.DatastoreImpl;
 import se.test.dao.impl.MemcacheImpl;
-import se.test.dao.impl.TopicPubsubImpl;
+import se.test.dao.impl.PubsubImpl;
 import se.test.resouce.DatastoreResource;
 import se.test.resouce.DefaultResource;
 import se.test.resouce.MemcacheResource;
+import se.test.resouce.SubscriptionPubsubResource;
 import se.test.resouce.TopicPubsubResource;
 import se.test.util.Util;
 
@@ -24,7 +25,7 @@ public class DefaultApplication extends Application
     private Datastore datastore;
     private BigQuery bigQuery;
     private Memcache memcache;
-    private TopicPubsub pubsub;
+    private Pubsub pubsub;
 	
     @Override
     public Restlet createInboundRoot() 
@@ -33,7 +34,7 @@ public class DefaultApplication extends Application
     	datastore = new DatastoreImpl();
         bigQuery = new BigQueryImpl();
         memcache = new MemcacheImpl();
-        pubsub = new TopicPubsubImpl();
+        pubsub = new PubsubImpl();
        
     	Router router = new Router(getContext());
 
@@ -50,7 +51,8 @@ public class DefaultApplication extends Application
         //Memcache
         router.attach("/memcache", MemcacheResource.class);
         //Pubsub
-        router.attach("/pubsub", TopicPubsubResource.class);
+        router.attach("/pubsub/topic", TopicPubsubResource.class);
+        router.attach("/pubsub/subscription", SubscriptionPubsubResource.class);
         
         return router;
     }

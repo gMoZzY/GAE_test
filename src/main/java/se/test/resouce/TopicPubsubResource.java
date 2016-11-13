@@ -12,19 +12,19 @@ import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import se.test.dao.TopicPubsub;
+import se.test.dao.Pubsub;
 import se.test.pojo.PubsubPojo;
 import se.test.util.Util;
 
 public class TopicPubsubResource extends ServerResource {
 	
-	private TopicPubsub pubsub;
+	private Pubsub pubsub;
     
     public TopicPubsubResource() {}
     
     protected void doInit() throws ResourceException 
     {
-    	this.pubsub = (TopicPubsub) getContext().getAttributes().get(Util.PUBSUB_DAO_ID);
+    	this.pubsub = (Pubsub) getContext().getAttributes().get(Util.PUBSUB_DAO_ID);
     }
         
    
@@ -38,7 +38,7 @@ public class TopicPubsubResource extends ServerResource {
     @Post("json")
     public Representation handlePost(PubsubPojo topic)
     {
-    	return new JacksonRepresentation<PubsubPojo>(this.pubsub.createTopic(topic));
+    	return new JacksonRepresentation<PubsubPojo>(this.pubsub.setTopic(topic));
     }
     
     @Put("json")

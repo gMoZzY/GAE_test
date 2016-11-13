@@ -7,33 +7,31 @@ import java.util.List;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.services.pubsub.Pubsub;
 import com.google.api.services.pubsub.model.ListTopicsResponse;
+import com.google.api.services.pubsub.model.PushConfig;
+import com.google.api.services.pubsub.model.Subscription;
 import com.google.api.services.pubsub.model.Topic;
 
 import se.test.pojo.PubsubPojo;
 
 
 
-public class TopicPubsubImpl implements se.test.dao.TopicPubsub {
+public class PubsubImpl implements se.test.dao.Pubsub {
 
 	Pubsub pubsub;
 	
-	private final String PROJECT_ID = "GAE_test"; 
-	
-	public TopicPubsubImpl()
+	public PubsubImpl()
 	{
 		
 		this.pubsub = new Pubsub.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null)
-				.setRootUrl("http://localhost:6666").build();
-				
+				.setRootUrl("http://localhost:6666").build();			
 		//pubsub = PubSubOptions.newBuilder().setHost("localhost:6666").build().getService();
-
 	}
 	
 	@Override
-	public PubsubPojo createTopic(PubsubPojo topic) 
+	public PubsubPojo setTopic(PubsubPojo pubsubPojo) 
 	{
 		
-		String fullName = topic.getName();
+		String fullName = pubsubPojo.getName();
 		try
 		{
             return new PubsubPojo(this.pubsub.projects().topics().get(fullName).execute());
@@ -47,10 +45,9 @@ public class TopicPubsubImpl implements se.test.dao.TopicPubsub {
         }
 		
 		/*
-		 * cloud way
-		TopicInfo topicInfo = TopicInfo.of(name);
-		return this.pubsub.create(topicInfo);
-		*/
+		 * TopicInfo topicInfo = TopicInfo.of(name);
+		 * return this.pubsub.create(topicInfo);
+		 */
 		return null;
 	}
 
@@ -81,15 +78,40 @@ public class TopicPubsubImpl implements se.test.dao.TopicPubsub {
 		}catch(IOException e){
 
 		}
-		/*
+/*
 		Page<Topic> topics = this.pubsub.listTopics(ListOption.pageSize(100));
 		Iterator<Topic> topicIterator = topics.iterateAll();
 	    List<Topic> topicList = new ArrayList<Topic>();
 		while (topicIterator.hasNext()) {
 	      topicList.add(topicIterator.next());
 	    }
-		*/
+*/
 		return topicList;
+	}
+	
+	@Override
+	public PubsubPojo getSubscription(String pubsubPojo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public PubsubPojo setSubscription(PubsubPojo pubsubPojo) {
+		
+		String fullName = pubsubPojo.getName();
+
+        try {
+            this.pubsub.projects().subscriptions().get(fullName).execute();
+        } catch (IOException e) {
+                try
+                {
+	        		String fullTopicName = pubsubPojo.getName();
+	                PushConfig pushConfig = new PushConfig().setPushEndpoint("http://localhost:8080");
+	                Subscription subscription = new Subscription().setTopic(fullTopicName).setPushConfig(pushConfig);
+	                this.pubsub.projects().subscriptions().create(fullName, subscription).execute();
+                } catch(IOException e1) {}
+        }
+		return null;
 	}
 	
 }
