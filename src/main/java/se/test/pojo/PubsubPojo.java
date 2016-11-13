@@ -1,51 +1,13 @@
 package se.test.pojo;
-	   
-import com.google.api.client.json.GenericJson;
-import com.google.api.services.pubsub.model.Subscription;
-import com.google.api.services.pubsub.model.Topic;
 
 public class PubsubPojo {
-
-	private String topicName;
-	private String subscriptionName;
+	
+	private String name;
 	private String projectId;
 	private String topicId;
-	private String message;
-	private String pushEndpoint;
+	private String type;
 	
 	public PubsubPojo() {}
-	
-	public PubsubPojo(GenericJson pubsub) 
-	{
-		if(pubsub instanceof Topic)
-		{
-			setName(((Topic)pubsub).getName());
-		}
-		else if(pubsub instanceof Subscription)
-		{
-			setName(((Subscription)pubsub).getName());
-		}
-	}
-
-	public void setTopicName(String topicName) 
-	{
-		this.topicName = topicName;
-	}
-	
-	public String getTopicName() 
-	{
-		return topicName;
-	}
-	
-	public void setSubscriptionName(String subscriptionName) 
-	{
-		this.subscriptionName = subscriptionName;
-	}
-	
-	public String getSubscriptionName() 
-	{
-		return subscriptionName;
-	}
 	
 	public void setName(String name)
 	{
@@ -62,10 +24,14 @@ public class PubsubPojo {
 	
 	private void setName() 
 	{
-		this.topicName = String.format("projects/%s/topics/%s", this.getProjectId(), this.getTopicId());
-		this.subscriptionName = String.format("projects/%s/subscriptions/%s", this.getProjectId(), this.getTopicId());
+		this.name = String.format("projects/%s/%s/%s", this.getProjectId(), this.getType(), this.getTopicId());
 	}
 
+	public String getName()
+	{
+		return this.name;
+	}
+	
 	public String getProjectId() 
 	{
 		return this.projectId;
@@ -75,7 +41,6 @@ public class PubsubPojo {
 	{
 		this.projectId = projectId;
 		setName();
-		
 	}
 
 	public String getTopicId() 
@@ -88,23 +53,16 @@ public class PubsubPojo {
 		this.topicId = topicId;
 		setName();
 	}
-
-	public String getMessage() 
+	
+	private String getType()
 	{
-		return message;
+		return this.type;
 	}
-
-	public void setMessage(String message) 
+	
+	protected void setType(String type)
 	{
-		this.message = message;
-	}
-
-	public String getPushEndpoint() {
-		return pushEndpoint;
-	}
-
-	public void setPushEndpoint(String pushEndpoint) {
-		this.pushEndpoint = pushEndpoint;
+		this.type = type;
+		setName();
 	}
 	
 }

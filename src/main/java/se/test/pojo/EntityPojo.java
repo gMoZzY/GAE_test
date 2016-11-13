@@ -2,11 +2,15 @@ package se.test.pojo;
 
 import java.util.Map;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.google.appengine.api.datastore.Entity;
 
 public class EntityPojo {
-
+	
+	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 	private long id; 
+	
 	private String kind;
 	private Map<String, Object> properties;
 	

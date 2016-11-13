@@ -1,9 +1,12 @@
 package se.test.pojo;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 public class CachePojo {
 	
 	private Object key;
 	private Object value;
+	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 	private Object expire;
 	
 	public CachePojo() 

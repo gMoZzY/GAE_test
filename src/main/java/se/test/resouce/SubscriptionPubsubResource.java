@@ -11,7 +11,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import se.test.dao.Pubsub;
-import se.test.pojo.PubsubPojo;
+import se.test.pojo.SubscriptionPubsubPojo;
 import se.test.util.Util;
 
 public class SubscriptionPubsubResource extends ServerResource {
@@ -28,29 +28,25 @@ public class SubscriptionPubsubResource extends ServerResource {
     public Representation handleGet() 
     { 
     	String projectId = getRequest().getResourceRef().getQueryAsForm().getFirstValue("projectId");
-    	return new JacksonRepresentation<List<PubsubPojo>>(this.pubsub.getSubscription(projectId));
+    	return new JacksonRepresentation<List<SubscriptionPubsubPojo>>(this.pubsub.getSubscription(projectId));
     }
 	
+	
     @Post("json")
-    public Representation handlePost(PubsubPojo pubsub)
+    public Representation handlePost(SubscriptionPubsubPojo pubsub)
     {
     	
     	if(pubsub.getPushEndpoint() != null && !pubsub.getPushEndpoint().isEmpty())
     	{
-    		return new JacksonRepresentation<PubsubPojo>(this.pubsub.setSubscription(pubsub));
-    		
+    		return new JacksonRepresentation<SubscriptionPubsubPojo>(this.pubsub.setSubscription(pubsub));
     	}
-    	else if(pubsub.getMessage() != null && !pubsub.getMessage().isEmpty())
-    	{
-    		this.pubsub.sendMessage(pubsub);
-    		return new JacksonRepresentation<String>("Success!");
-    	}
+    	
     	
     	return new JacksonRepresentation<String>("Something went wrong");
     }
     
     @Delete
-    public void handleDelete(PubsubPojo pubsub)
+    public void handleDelete(SubscriptionPubsubPojo pubsub)
     {
     	this.pubsub.deleteSubscription(pubsub);
     }

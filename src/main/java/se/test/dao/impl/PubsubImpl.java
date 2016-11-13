@@ -16,7 +16,8 @@ import com.google.api.services.pubsub.model.Topic;
 
 import com.google.common.collect.ImmutableList;
 
-import se.test.pojo.PubsubPojo;
+import se.test.pojo.SubscriptionPubsubPojo;
+import se.test.pojo.TopicPubsubPojo;
 import se.test.util.Util;
 
 
@@ -32,17 +33,17 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	
 	/*Topic*/
 	@Override
-	public PubsubPojo setTopic(PubsubPojo pubsub) 
+	public TopicPubsubPojo setTopic(TopicPubsubPojo pubsub) 
 	{
 		
-		String fullName = pubsub.getTopicName();
+		String fullName = pubsub.getName();
 		try
 		{
-            return new PubsubPojo(this.pubsub.projects().topics().get(fullName).execute());
+            return new TopicPubsubPojo(this.pubsub.projects().topics().get(fullName).execute());
         } catch(IOException e) {
                 try 
                 {
-                	return new PubsubPojo(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
+                	return new TopicPubsubPojo(this.pubsub.projects().topics().create(fullName, new Topic()).execute());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}	
@@ -51,9 +52,9 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 
 	@Override
-	public List<PubsubPojo> getTopics(String projectId) 
+	public List<TopicPubsubPojo> getTopics(String projectId) 
 	{
-		List<PubsubPojo> topicList = new ArrayList<PubsubPojo>();
+		List<TopicPubsubPojo> topicList = new ArrayList<TopicPubsubPojo>();
 		try
 		{
 			String nextPageToken = null;
@@ -68,7 +69,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	            {
 	                for (Topic tmp : response.getTopics()) 
 	                {
-	                    topicList.add(new PubsubPojo(tmp));
+	                    topicList.add(new TopicPubsubPojo(tmp));
 	                }
 	            }
 	            nextPageToken = response.getNextPageToken();
@@ -80,37 +81,37 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 	
 	@Override
-	public void deleteTopic(PubsubPojo pubsub) 
+	public void deleteTopic(TopicPubsubPojo pubsub) 
 	{
 		try {
-			this.pubsub.projects().topics().delete(pubsub.getTopicName()).execute();
+			this.pubsub.projects().topics().delete(pubsub.getName()).execute();
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	/*Subscription*/
 	@Override
-	public PubsubPojo setSubscription(PubsubPojo pubsub) {
+	public SubscriptionPubsubPojo setSubscription(SubscriptionPubsubPojo pubsub) {
 		
-		String fullName = pubsub.getSubscriptionName();
+		String fullName = pubsub.getName();
 
         try {
-            this.pubsub.projects().subscriptions().get(fullName).execute();
+        	return new SubscriptionPubsubPojo(this.pubsub.projects().subscriptions().get(fullName).execute());
         } catch (IOException e) {
                 try
                 {
 	        		String fullTopicName = pubsub.getTopicName();
 	                PushConfig pushConfig = new PushConfig().setPushEndpoint(pubsub.getPushEndpoint());
 	                Subscription subscription = new Subscription().setTopic(fullTopicName).setPushConfig(pushConfig);
-	                return new PubsubPojo(this.pubsub.projects().subscriptions().create(fullName, subscription).execute());
+	                return new SubscriptionPubsubPojo(this.pubsub.projects().subscriptions().create(fullName, subscription).execute());
                 } catch(IOException e1) {}
         }
 		return null;
 	}
 	
 	@Override
-	public List<PubsubPojo> getSubscription(String projectId) 
+	public List<SubscriptionPubsubPojo> getSubscription(String projectId) 
 	{
-		List<PubsubPojo> subscriptionList = new ArrayList<PubsubPojo>();
+		List<SubscriptionPubsubPojo> subscriptionList = new ArrayList<>();
 		try
 		{
 			String nextPageToken = null;
@@ -125,7 +126,7 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	            {
 	                for (Subscription tmp : response.getSubscriptions()) 
 	                {
-	                    subscriptionList.add(new PubsubPojo(tmp));
+	                    subscriptionList.add(new SubscriptionPubsubPojo(tmp));
 	                }
 	            }
 	            nextPageToken = response.getNextPageToken();
@@ -137,21 +138,21 @@ public class PubsubImpl implements se.test.dao.Pubsub {
 	}
 
 	@Override
-	public void deleteSubscription(PubsubPojo pubsub) 
+	public void deleteSubscription(SubscriptionPubsubPojo pubsub) 
 	{
 		try {
-			this.pubsub.projects().subscriptions().delete(pubsub.getSubscriptionName()).execute();
+			this.pubsub.projects().subscriptions().delete(pubsub.getName()).execute();
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	/*Message*/
 	@Override
-	public void sendMessage(PubsubPojo pubsub) {
+	public void sendMessage(TopicPubsubPojo pubsub) {
         if (pubsub.getMessage() != null && !pubsub.getMessage().isEmpty()) 
         {
         	try
         	{
-	            String fullTopicName = pubsub.getTopicName();
+	            String fullTopicName = pubsub.getName();
 	            PubsubMessage pubsubMessage = new PubsubMessage();
 	            pubsubMessage.encodeData(pubsub.getMessage().getBytes("UTF-8"));
 	            PublishRequest publishRequest = new PublishRequest();
